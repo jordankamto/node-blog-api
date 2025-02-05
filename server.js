@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyparser = require('body-parser');
+const mongoose = require('mongoose');
 const articleRoutes = require('./routes/article');
+const userRoutes = require('./routes/users');
 
 const app = express();
 
@@ -15,5 +17,6 @@ app.use((req, res, next) => {
 })
 
 app.use('/api/article', articleRoutes);
+app.use('/api/user', userRoutes);
 
-app.listen(8080);
+mongoose.connect('mongodb://localhost:27017/blog').then(result => {app.listen(8080);}).catch(err => {console.log(err)});
