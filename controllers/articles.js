@@ -1,6 +1,6 @@
 const Article = require('../models/article');
 
-
+//Controller to display all articles : /api/article/all - READ ALL
 exports.getArticles = (req, res, next) => {
     res.status(200).json({
         posts: [{
@@ -31,7 +31,9 @@ exports.getArticles = (req, res, next) => {
     })
 }
 
+//Contoller to add a article : /api/article/post - CREATE
 exports.postArticle = (req, res, next) => {
+    //receive info from the POST request to CREATE an article
     const title = req.body.title;
     const content = req.body.content;
     const author = req.body.author;
@@ -41,7 +43,6 @@ exports.postArticle = (req, res, next) => {
         content: content,
         author: author
     });
-
     //save post to mondodb
     article.save().then(result => {
         console.log(result);
@@ -52,5 +53,13 @@ exports.postArticle = (req, res, next) => {
     }).catch(err => {
         console.log(err);
     })
-    
 }
+
+//Controller to fetch an article by its id : /api/article/:id - READ
+
+//Controller to edit article : /api/article/edit/:id - UPDATE
+
+//Controller to delete article : /api/article/delete/:id - DELETE
+
+
+
