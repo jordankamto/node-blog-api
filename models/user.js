@@ -13,6 +13,8 @@ const userSchema = new Schema({
     profileUrl: {
         type: String
     }
-})
+},
+    {timestamps: true}
+)
 
 module.exports = mongoose.model('User', userSchema);

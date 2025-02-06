@@ -16,6 +16,12 @@ app.use((req, res, next) => {
     next();
 })
 
+//Default backend API message
+app.get('/api', (req,res,next) => {
+    res.send('Server is running in localhost:8080');
+    next();
+})
+
 app.use('/api/article', articleRoutes);
 app.use('/api/user', userRoutes);
 
