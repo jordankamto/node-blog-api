@@ -1,0 +1,10 @@
+un blog fait en nodejs ou on peut  sign up, sign in (auth), modifier les données de son profil, créé les articles et les publier, les supprimer et les modifier, image upload, MongoDB, Controller, routes, validation  etc
+
+- sign up, sign in (auth) - bcryptjs
+- Add and retrieve data to/from MongoDB documents - mongoose, dotenv
+- CRUD articles - cors
+- CRUD users - nodemailer
+- Validate inputs - express-validator
+- Add image and file upload and download (post featured image and user profile picture) - multer
+- Add sessions and cookies - express-sessions, connect-mongodb-session
+- Secure app - csrf

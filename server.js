@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const articleRoutes = require('./routes/article');
 const userRoutes = require('./routes/users');
 
+
 const app = express();
 
 app.use(bodyparser.json());
@@ -39,7 +40,7 @@ app.use((error, req, res, next) => {
 
 //404 page handling
 app.use((req,res,next) => {
-    res.status(404).send('Ressource unavailable');
+    res.status(404).send('Invalid request check and try again');
     next();
 })
 
