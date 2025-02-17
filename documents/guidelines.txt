@@ -6,5 +6,4 @@ un blog fait en nodejs ou on peut  sign up, sign in (auth), modifier les donnée
 - CRUD users - nodemailer
 - Validate inputs - express-validator
 - Add image and file upload and download (post featured image and user profile picture) - multer
-- Add sessions and cookies - express-sessions, connect-mongodb-session
-- Secure app - csrf
+- Add auth and cookies - jsonwebtoken, connect-mongodb-session, cookie-parser

@@ -1,16 +1,38 @@
 const express = require('express');
 const path = require('path');
-const bodyparser = require('body-parser');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const articleRoutes = require('./routes/article');
 const userRoutes = require('./routes/users');
+const multer = require('multer');
 
 
 const app = express();
 
-app.use(bodyparser.json());
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'images');
+    },
+    filename: (req, file, cb) => {
+        cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname);
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    if(file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg'){
+        cb(null, true);
+    }
+    else{
+        cb(null, false);
+    }
+}
+
+app.use(bodyParser.json());
+app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'));
+
 //access the server.js directory path then to the images folder found in the same dir to access ./images and serve them statically
 app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/documents', express.static(path.join(__dirname, 'documents')));
 
 //Middleware to permit cross-site requests to update with cors()
 app.use((req, res, next) => {

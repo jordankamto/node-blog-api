@@ -1,6 +1,6 @@
 const User = require('../models/user');
 
-//Contoller to add a user : /api/user/add - CREATE
+//Controller to add a user : /api/user/add - CREATE
 exports.postUser = (req, res, next) => {
     const name = req.body.name;
     const email = req.body.email;

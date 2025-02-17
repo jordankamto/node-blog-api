@@ -15,15 +15,21 @@ exports.getArticles = (req, res, next) => {
     })
 };
 
-//Contoller to add a article : /api/article/add - CREATE
+//Controller to add a article : /api/article/add - CREATE
 exports.postArticle = (req, res, next) => {
+    if(!req.file){
+        const error = new Error('No image provided');
+        error.statusCode = 422;
+        throw error;
+    }
     //receive info from the POST request to CREATE an article
+    const imageUrl = req.file.path;
     const title = req.body.title;
     const content = req.body.content;
     const author = req.body.author;
     const article  = new Article({
         title: title,
-        imageUrl: './images/im1.jpg',
+        imageUrl: imageUrl,
         content: content,
         author: author
     });
