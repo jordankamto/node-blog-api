@@ -1,4 +1,5 @@
 const Article = require('../models/article');
+const {validationResult} = require('express-validator');
 
 //Controller to display all articles : /api/article/all - READ ALL
 exports.getArticles = (req, res, next) => {
@@ -22,6 +23,13 @@ exports.postArticle = (req, res, next) => {
         error.statusCode = 422;
         throw error;
     }
+    const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            const error = new Error('Validation failed');
+            error.statusCode = 422;
+            error.data = errors.array();
+            throw error;
+        }
     //receive info from the POST request to CREATE an article
     const imageUrl = req.file.path;
     const title = req.body.title;
@@ -33,7 +41,7 @@ exports.postArticle = (req, res, next) => {
         content: content,
         author: author
     });
-    //save post to mondodb
+    //save post to mongodb
     article.save().then(result => {
         console.log(result);
         res.status(201).json({

@@ -1,4 +1,5 @@
 const express = require('express');
+const {body} = require('express-validator');
 
 const Users = require('../controllers/users');
 
@@ -10,11 +11,17 @@ router.get('/all', Users.getUsers);
 //GET on /api/user/:id
 router.get('/:id', Users.getUser);
 
-//POST on /api/user/add
-router.post('/add', Users.postUser);
-
-//POST on /api/user/edit/:id
-router.post('/edit/:id', Users.editUser);
+//PUT on /api/user/edit/:id - add body validation
+router.put('/edit/:id', [
+    body('email').isEmail().withMessage('Please enter a valid email').custom((value, {req}) => {
+        return User.findOne({email: value}).then(userDoc => {
+            if(!userDoc){
+                return Promise.reject('There is no account associated this email');
+            }
+        });
+    }).normalizeEmail(),
+    body('password').trim().isLength({min: 7}).withMessage('Your password should be at least 7 characters long')
+],Users.editUser);
 
 //POST on /api/user/delete/:id
 router.post('/delete/:id', Users.deleteUser);

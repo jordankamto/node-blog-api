@@ -2,10 +2,12 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const articleRoutes = require('./routes/article');
-const userRoutes = require('./routes/users');
 const multer = require('multer');
 
+
+const articleRoutes = require('./routes/article');
+const userRoutes = require('./routes/users');
+const authRoutes = require('./routes/auth');
 
 const app = express();
 
@@ -49,6 +51,7 @@ app.get('/api', (req, res, next) => {
     next();
 })
 
+app.use('/api/auth', authRoutes);
 app.use('/api/article', articleRoutes);
 app.use('/api/user', userRoutes);
 
@@ -57,7 +60,8 @@ app.use((error, req, res, next) => {
     console.log(error);
     const status = error.statusCode || 500;
     const message = error.message;
-    res.status(status).json({message : message});
+    const data = error.data;
+    res.status(status).json({message : message, data: data});
 })
 
 //404 page handling

@@ -1,26 +1,6 @@
 const User = require('../models/user');
+const { body, validationResult } = require('express-validator');
 
-//Controller to add a user : /api/user/add - CREATE
-exports.postUser = (req, res, next) => {
-    const name = req.body.name;
-    const email = req.body.email;
-    //const profileUrl = '/images/pp1.jpg';
-    const user = new User({
-        name: name,
-        email: email,
-        profileUrl: '/images/pp1.jpg'
-    });
-    //save user to mongodb
-    user.save().then(result => {
-        console.log(result);
-        res.status(201).json({
-            message: "User created successfully",
-            user: result
-        })
-    }).catch(err => {
-        console.log(err);
-    })
-};
 
 //Controller to fetch a user by his user id : /api/user/:id - READ
 exports.getUser = (req, res, next) => {
