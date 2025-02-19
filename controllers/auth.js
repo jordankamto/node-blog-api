@@ -77,9 +77,4 @@ exports.loginUser = (req, res, next) => {
     })
 }
 
-//Middleware to verify if user is auth for action to be done
-exports.isAuth = (req, res, next) => {
-    res.send('Middleware to verify is user is authenticated is not yet available');
-    next();
-}
 
