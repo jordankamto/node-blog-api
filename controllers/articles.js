@@ -1,4 +1,5 @@
 const Article = require('../models/article');
+const User = require('../models/user');
 const {validationResult} = require('express-validator');
 
 //Controller to display all articles : /api/article/all - READ ALL
@@ -34,21 +35,29 @@ exports.postArticle = (req, res, next) => {
     const imageUrl = req.file.path;
     const title = req.body.title;
     const content = req.body.content;
-    const author = req.body.author;
+    
     const article  = new Article({
         title: title,
         imageUrl: imageUrl,
         content: content,
-        author: author
+        author: req.userId
     });
     //save post to mongodb
     article.save().then(result => {
-        console.log(result);
-        res.status(201).json({
-            message: 'Post created successfully',
-            article: result
+        return User.findById(req.userId);
+    }).then(user => {
+            author = user;
+            user.userPosts.push(article);
+            return user.save();
+        }).then(result => {
+            res.status(201).json({
+                message: 'Post created successfully',
+                article: article,
+                author: {_id : author._id, name: author.name, email: author.email}
         })
-    }).catch(err => {
+    })
+
+    .catch(err => {
         console.log(err);
     })
 };

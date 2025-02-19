@@ -16,27 +16,13 @@ router.get('/:id', isAuth, Articles.getArticle);
 //POST on /api/article/add
 router.post('/add', isAuth, [
     body('title').trim().isLength({min: 5}).withMessage('Your post title should be at least 5 characters long'),
-    body('content').trim().isLength({min: 7}).withMessage('Your post title should be at least 7 characters long'),
-    body('author').trim().custom((value, {req}) => {
-        return User.findById(value).then(result => {
-            if(!result){
-                return Promise.reject('The author was not found in our database!');
-            }
-        });
-    })
+    body('content').trim().isLength({min: 7}).withMessage('Your post title should be at least 7 characters long')
 ],Articles.postArticle);
 
 //PUT on /api/article/edit/:id
 router.put('/edit/:id', isAuth, [
     body('title').trim().isLength({min: 5}).withMessage('Your post title should be at least 5 characters long'),
-    body('content').trim().isLength({min: 7}).withMessage('Your post title should be at least 7 characters long'),
-    body('author').trim().custom((value, {req}) => {
-        return User.findById(value).then(result => {
-            if(!result){
-                return Promise.reject('The author was not found in our database!');
-            }
-        });
-    })
+    body('content').trim().isLength({min: 7}).withMessage('Your post title should be at least 7 characters long')
 ],Articles.editArticle);
 
 //POST on /api/article/delete/:id
