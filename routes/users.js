@@ -13,13 +13,7 @@ router.get('/:id', Users.getUser);
 
 //PUT on /api/user/edit/:id - add body validation
 router.put('/edit/:id', [
-    body('email').isEmail().withMessage('Please enter a valid email').custom((value, {req}) => {
-        return User.findOne({email: value}).then(userDoc => {
-            if(!userDoc){
-                return Promise.reject('There is no account associated this email');
-            }
-        });
-    }).normalizeEmail(),
+    body('email').isEmail().withMessage('Please enter a valid email').normalizeEmail(),
     body('password').trim().isLength({min: 7}).withMessage('Your password should be at least 7 characters long')
 ],Users.editUser);
 
