@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 
+
 //Controller to add a user : /api/auth/signup - CREATE
 exports.signupUser = (req, res, next) => {
     const errors = validationResult(req);
@@ -74,7 +75,7 @@ exports.loginUser = (req, res, next) => {
             err.statusCode = 500;
         }
         next(err);
-    })
+    });
 }
 
 

@@ -27,9 +27,12 @@ const fileFilter = (req, file, cb) => {
     else{
         cb(null, false);
     }
-}
+};
 
+//permit the parsing of json data where ever  it be done
 app.use(bodyParser.json());
+
+//permit the parsing of single files through filed named 'image' via requests
 app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'));
 
 //access the server.js directory path then to the images folder found in the same dir to access ./images and serve them statically

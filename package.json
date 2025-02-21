@@ -6,7 +6,7 @@
     "start": "nodemon server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "super-admin",
   "license": "ISC",
   "description": "",
   "dependencies": {

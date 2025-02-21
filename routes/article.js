@@ -17,16 +17,16 @@ router.get('/:id', isAuth, Articles.getArticle);
 router.post('/add', isAuth, [
     body('title').trim().isLength({min: 5}).withMessage('Your post title should be at least 5 characters long'),
     body('content').trim().isLength({min: 7}).withMessage('Your post title should be at least 7 characters long')
-],Articles.postArticle);
+], Articles.postArticle);
 
 //PUT on /api/article/edit/:id
 router.put('/edit/:id', isAuth, [
     body('title').trim().isLength({min: 5}).withMessage('Your post title should be at least 5 characters long'),
     body('content').trim().isLength({min: 7}).withMessage('Your post title should be at least 7 characters long')
-],Articles.editArticle);
+], Articles.editArticle);
 
-//POST on /api/article/delete/:id
-router.post('/delete/:id', isAuth, Articles.deleteArticle);
+//DELETE on /api/article/delete/:id
+router.delete('/delete/:id', isAuth, Articles.deleteArticle);
 
 
 
