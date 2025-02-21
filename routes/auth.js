@@ -23,4 +23,10 @@ router.post('/signup', [
     body('password').trim().isLength({min: 7}).withMessage('Your password should be at least 7 characters long')
 ], authController.signupUser);
 
+//PUT on /api/auth/edit-password
+router.put('/edit-password', [
+    body('email').isEmail().withMessage('Please enter a valid email').normalizeEmail(),
+    body('password').trim().isLength({min: 7}).withMessage('Your password should be at least 7 characters long')
+], authController.editPassword);
+
 module.exports = router;

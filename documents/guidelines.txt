@@ -7,3 +7,5 @@ un blog fait en nodejs ou on peut  sign up, sign in (auth), modifier les donnée
 - CRUD users - nodemailer
 - Add image and file upload and download (post featured image and user profile picture) - multer
 - Add authentication and authorization - jsonwebtoken
+- Add edit password
+- Add/Edit profile picture

@@ -1,4 +1,3 @@
-const article = require('../models/article');
 const Article = require('../models/article');
 const User = require('../models/user');
 const {validationResult} = require('express-validator');
@@ -147,7 +146,12 @@ exports.deleteArticle = (req, res, next) => {
         deleteImage(article.imageUrl);
         return Article.findByIdAndDelete(id);
     }).then(result => {
-        console.log(result);
+        return User.findById(req.userId);
+        
+    }).then(user => {
+        user.userPosts.pull(id);
+        return user.save();
+    }).then(result => {
         res.status(200).json({message: "Article deleted successfully"});
     }).catch(err => {
         if(!err.statusCode){

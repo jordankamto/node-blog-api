@@ -50,7 +50,7 @@ app.use((req, res, next) => {
 
 //Default backend API message
 app.get('/api', (req, res, next) => {
-    res.send('API is Currently active');
+    res.status(200).send('API is Currently active');
     next();
 })
 
@@ -69,7 +69,7 @@ app.use((error, req, res, next) => {
 
 //404 page handling
 app.use((req,res,next) => {
-    res.status(404).send('Invalid request check and try again');
+    res.status(404).send('404 : Invalid request check and try again');
     next();
 })
 
