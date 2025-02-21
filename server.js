@@ -3,6 +3,8 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const multer = require('multer');
+const dotenv = require('dotenv').config();
+
 
 
 const articleRoutes = require('./routes/article');
@@ -49,9 +51,8 @@ app.use((req, res, next) => {
 
 
 //Default backend API message
-app.get('/api', (req, res, next) => {
-    res.status(200).send('API is Currently active');
-    next();
+app.get('/api', (req, res) => {
+    res.status(200).json({message: `API is Currently running of port: ${process.env.PORT}`});
 })
 
 app.use('/api/auth', authRoutes);
@@ -73,4 +74,6 @@ app.use((req,res,next) => {
     next();
 })
 
-mongoose.connect('mongodb://localhost:27017/blog').then(result => {app.listen(8080);}).catch(err => {console.log(err)});
+mongoose.connect(`${process.env.MONGO_URI}`)
+.then(result => {app.listen(process.env.PORT);})
+.catch(err => {console.log(err)});

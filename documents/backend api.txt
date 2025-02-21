@@ -1,0 +1,12 @@
+bcryptjs
+body-parser
+connect-mongodb-session
+cookie-parser
+cors
+dotenv
+express
+express-validator
+jsonwebtoken
+mongoose
+multer
+nodemailer

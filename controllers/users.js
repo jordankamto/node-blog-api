@@ -9,6 +9,11 @@ const { findByIdAndDelete } = require('../models/article');
 exports.getUser = (req, res, next) => {
     const id = req.params.id;
     User.findById(id).then(user => {
+        if(user._id.toString() !== req.userId && req.userId !== '67b89d7908a899db08f7c3ca'){
+            const error = new Error('You are not authorized to access this resource');
+            error.statusCode = 401;
+            throw error;
+        }
         res.status(200).json({message: 'User info fetched successfully', user: user});
     }).catch(err => {
         if(!err.statusCode){
@@ -21,6 +26,11 @@ exports.getUser = (req, res, next) => {
 //Controller to display all users : /api/user/all - READ ALL
 exports.getUsers = (req, res, next) => {
     User.find().then(users => {
+        if(req.userId !== '67b89d7908a899db08f7c3ca'){
+            const error = new Error('This is an admin resource only');
+            error.statusCode = 403;
+            throw error
+        }
         res.status(200).json({message: 'All users info fetched successfully', user: users});
     }).catch(err => {
         if(!err.statusCode){
@@ -50,7 +60,7 @@ exports.editUser = (req, res, next) => {
             throw error;
         }
         //prevent another user from changing other users information
-        if(user._id.toString() !== req.userId){
+        if(user._id.toString() !== req.userId && req.userId !== '67b89d7908a899db08f7c3ca'){
             const error = new Error('You are not authorized to modify this users information');
             error.statusCode = 401;
             throw error;
@@ -80,12 +90,14 @@ exports.deleteUser = (req, res, next) => {
             throw error;
         }
         //prevent another user from changing other users information
-        if(user._id.toString() !== req.userId){
+        if(user._id.toString() !== req.userId && req.userId !== '67b89d7908a899db08f7c3ca'){
             const error = new Error('You are not authorized to modify this users information');
             error.statusCode = 401;
             throw error;
         }
-        deleteImage(user.profileUrl);
+        if(user.profileUrl){
+            deleteImage(user.profileUrl);
+        }
         return User.findByIdAndDelete(id);
     }).then(result => {
         res.status(200).json({message: 'User deleted successfully', user: result});
@@ -116,7 +128,7 @@ exports.editPp = (req, res, next) => {
             throw error;
         }
         //prevent another user from changing other users information
-        if(user._id.toString() !== req.userId){
+        if(user._id.toString() !== req.userId && req.userId !== '67b89d7908a899db08f7c3ca'){
             const error = new Error('You are not authorized to modify this users information');
             error.statusCode = 401;
             throw error;
@@ -138,6 +150,11 @@ exports.editPp = (req, res, next) => {
 
 //function to delete old image upon updating
 const deleteImage = filePath => {
+    if(!filePath){
+        const error = new Error('No file to delete was found');
+        error.statusCode = 404;
+        throw error;
+    }
     filePath = path.join(__dirname, '..', filePath);
     fs.unlink(filePath, err => console.log(err));
 };

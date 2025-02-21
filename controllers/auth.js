@@ -2,6 +2,7 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
+const dotenv = require('dotenv').config();
 
 
 //Controller to add a user : /api/auth/signup - CREATE
@@ -68,7 +69,7 @@ exports.loginUser = (req, res, next) => {
             error.statusCode = 401;
             throw error;
         }
-        const token =jwt.sign({email: loadedUser.email, userId: loadedUser._id.toString()}, 'tokenSecret', {expiresIn: '5h'});
+        const token =jwt.sign({email: loadedUser.email, userId: loadedUser._id.toString()}, `${process.env.JWT_SECRET}`, {expiresIn: '5h'});
         res.status(200).json({token: token, userId: loadedUser._id.toString()});
     }).catch(err => {
         if(!err.statusCode){
@@ -87,6 +88,7 @@ exports.editPassword = (req, res, next) => {
         error.data = errors.array();
         throw error;
     }
+    
     const email = req.body.email;
     const password = req.body.password;
     bcrypt.hash(password, 12).then(hashedPw => {
@@ -94,6 +96,11 @@ exports.editPassword = (req, res, next) => {
             if(!user){
                 const error = new Error('No user with the following email was found');
                 error.statusCode = 400;
+                throw error;
+            }
+            if(user._id.toString() !== req.userId){
+                const error = new Error('You are not authorized to edit this user password');
+                error.statusCode = 403;
                 throw error;
             }
             user.password = hashedPw;

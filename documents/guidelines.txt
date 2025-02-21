@@ -9,3 +9,4 @@ un blog fait en nodejs ou on peut  sign up, sign in (auth), modifier les donnée
 - Add authentication and authorization - jsonwebtoken
 - Add edit password
 - Add/Edit profile picture
+- Implementing admin with all powers

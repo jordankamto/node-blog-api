@@ -115,6 +115,11 @@ exports.editArticle = (req, res, next) => {
         if(imageUrl !== article.imageUrl){
             deleteImage(article.imageUrl);
         }
+        if(article.author !== req.userId && req.userId !== '67b89d7908a899db08f7c3ca'){
+            const error = new Error('You are not authorized to edit this article');
+            error.statusCode = 403;
+            throw error;
+        }
         article.title = title;
         article.content = content;
         article.imageUrl = imageUrl;
@@ -138,7 +143,7 @@ exports.deleteArticle = (req, res, next) => {
             error.statusCode = 404;
             throw error;
         }
-        if(article.author.toString() !== req.userId){
+        if(article.author.toString() !== req.userId && req.userId !== '67b89d7908a899db08f7c3ca'){
             const error = new Error('You are not authorized to delete the following post');
             error.statusCode(403);
             throw error;
@@ -163,6 +168,11 @@ exports.deleteArticle = (req, res, next) => {
 
 //function to delete old image upon updating
 const deleteImage = filePath => {
+    if(!filePath){
+        const error = new Error('No file to delete was found');
+        error.statusCode = 404;
+        throw error;
+    }
     filePath = path.join(__dirname, '..', filePath);
     fs.unlink(filePath, err => console.log(err));
 };

@@ -7,10 +7,10 @@ const Articles = require('../controllers/articles');
 const router = express.Router();
 
 //GET on /api/article/all
-router.get('/all', isAuth, Articles.getArticles);
+router.get('/all', Articles.getArticles);
 
 //GET on /api/article/:id
-router.get('/:id', isAuth, Articles.getArticle);
+router.get('/:id', Articles.getArticle);
 
 //POST on /api/article/add
 router.post('/add', isAuth, [
