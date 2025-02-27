@@ -2,7 +2,6 @@ const User = require('../models/user');
 const { validationResult } = require('express-validator');
 const fs = require('fs');
 const path = require('path');
-const { findByIdAndDelete } = require('../models/article');
 
 
 //Controller to fetch a user by his user id : /api/user/:id - READ
